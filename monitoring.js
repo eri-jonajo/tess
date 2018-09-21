@@ -75,5 +75,5 @@ function check_failure(con) {
     });
 }
 
-console.log(new Date().getTime().toISOString());
+console.log(new Date().toISOString());
 next_process();
