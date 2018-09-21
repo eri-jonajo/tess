@@ -75,5 +75,5 @@ function check_failure(con) {
     });
 }
 
-
+console.log(new Date().getTime());
 next_process();
