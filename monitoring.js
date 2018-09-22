@@ -64,6 +64,7 @@ function check_failure(con) {
             if (result.length) {
                 hasError = true;
                 for (var x in result) {
+                    console.log(result[x]['server_name'] + ' ' + result[x]['script_name'] + ' at ' + result[x]['start_time'] + '\n');
                     emailBody += result[x]['server_name'] + ' ' + result[x]['script_name'] + ' at ' + result[x]['start_time'] + '\n';
                 }
 
