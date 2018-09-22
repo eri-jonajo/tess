@@ -57,7 +57,11 @@ function check_failure(con) {
         if (err) utils.send_slack({ channel: process.env.SLACK_ERI, text: 'ERCON: ' + con });
 
         con.query(`CALL bat_report_failure();`, function (err, res, fields) {
-            if (err) utils.send_slack({ channel: process.env.SLACK_ERI, text: 'ERBAT: ' + con + ': ' + bat_report_failure });
+            if (err) {
+                console.log(err);
+                utils.send_slack({ channel: process.env.SLACK_ERI, text: 'ERBAT: ' + con + ': ' + err });
+                next_process();
+            }
 
             var result = res[0];
             if (result.length) {
