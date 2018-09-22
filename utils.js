@@ -40,7 +40,7 @@ module.exports = {
             text: ''
         }, opt)
 
-        console.log('Sending slack to: ' + obj.channel);
+        console.log('Sending slack to: ' + opt.channel);
         var token = process.env.SLACK_TOKEN;
         var slack = new WebClient(token);
 
