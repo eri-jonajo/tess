@@ -44,10 +44,12 @@ function next_process() {
         case 3:
             if (hasError) {
                 console.log('Reporting..');
-                utils.send_slack({ text: emailBody });
-                //utils.send_email();
+                utils.send_slack({ text: emailBody }, function () {
+                    process.exit();
+                });
+            } else {
+                process.exit();
             }
-            process.exit();
             break;
     }
     step++;

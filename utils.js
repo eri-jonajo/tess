@@ -34,7 +34,7 @@ module.exports = {
         });
     },
 
-    send_slack: function (opt) {
+    send_slack: function (opt, callback) {
         opt = Object.assign({
             channel: process.env.SLACK_ALL,
             text: ''
@@ -52,9 +52,11 @@ module.exports = {
             .then((res) => {
                 // `res` contains information about the posted message
                 console.log('Message sent: ', res.ts);
+                if (callback) callback();
             })
             .catch((err) => {
                 console.log(err);
+                if (callback) callback();
             });
     }
 }
