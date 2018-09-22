@@ -26,6 +26,7 @@ var DB_PROD = mysql.createConnection({
 var emailBody = 'Batch Failure:\n';
 var hasError = false;
 var step = 0;
+
 function next_process() {
     switch (step) {
         case 0:
@@ -54,14 +55,10 @@ function next_process() {
 
 function check_failure(con) {
     con.connect(function (err) {
-        if (err) utils.send_slack({ channel: process.env.SLACK_ERI, text: 'ERCON: ' + con });
+        if (err) { log_error(`ERCON(${con.config.host}): ${err}`); }
 
         con.query(`CALL bat_report_failure();`, function (err, res, fields) {
-            if (err) {
-                console.log(err);
-                utils.send_slack({ channel: process.env.SLACK_ERI, text: 'ERBAT: ' + con + ': ' + err });
-                next_process();
-            }
+            if (err) { log_error(`ERBAT(${con.config.host}): ${err}`); }
 
             var result = res[0];
             if (result.length) {
@@ -77,6 +74,12 @@ function check_failure(con) {
             }
         });
     });
+}
+
+function log_error(err) {
+    console.log(err);
+    utils.send_slack({ channel: process.env.SLACK_ERI, text: err });
+    next_process();
 }
 
 console.log(new Date().toISOString());
